@@ -1,4 +1,14 @@
-# birdlab-datacleaning
-Data cleaning for questionnaires used by Bird Lab
-Currently supports the Short form Autism Quotient (AQ-28), the Toronto Alexithymia Scale (TAS), the Interoceptive Accuracy Scale (IAS), the Depression, Anxiety, and Stress Scale (DASS), and the State-Trait Anxiety Inventory (STAI-T and STAI-S)
-Questionnaires currently supported are: Short form Autism quotient AQ-28, Toronto Alexithymia Scale TAS, Interoceptive Accuracy Scale IAS, Depression, Anxiety, and Stress Scale DASS, and State-Trait Anxiety Inventory STAI-T and STAI-S
+# Data Cleaning for Questionnaires used by the Bird Lab
+
+_Version 1: 17 November 2019_
+
+A Shiny app for cleaning questionnaire data output from Gorilla (https://gorilla.sc). Also accessible at https://xavierrg.shinyapps.io/datacleaning/
+
+Currently supports basic data cleaning, reverse-coding, scoring, and reliability statistics for:
+* Short form Autism Quotient (AQ-28)
+* Toronto Alexithymia Scale (TAS)
+* Interoceptive Accuracy Scale (IAS)
+* Depression, Anxiety, and Stress Scale (DASS)
+* State-Trait Anxiety Inventory (STAI-T and STAI-S)
+
+In future, this app will support the full data cleaning workflow for all of Bird Lab's questionnaire data.

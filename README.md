@@ -1,5 +1,7 @@
 # Data Cleaning for Questionnaires used by the Bird Lab
 
+Bird Lab home page: https://sites.google.com/site/geoffbirdlab/home
+
 _Version 1: 17 November 2019_
 
 A Shiny app for cleaning questionnaire data output from Gorilla (https://gorilla.sc). Also accessible at https://xavierrg.shinyapps.io/datacleaning/

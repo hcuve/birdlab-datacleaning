@@ -28,7 +28,7 @@ score_one_questionnaire <- function(which, df) {
 # function to an input data frame, based on a vector indicating which
 # questionnaires to score
 score_questionnaires <- function(data, what_to_score) {
-  map(.x = what_to_score, .f = score_one_questionnaire, data) %>%
+  map(.x = what_to_score, .f = score_one_questionnaire, df = data) %>%
     reduce(merge)
   
 }

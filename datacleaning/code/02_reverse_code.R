@@ -56,10 +56,26 @@ items_to_reverse_STAI <- c(
   "STAIS_20"
 )
 
-# Function that reverses
-reverse_code <- function(df) {
-  df <- df %>%
-    reverse(items = items_to_reverse_AQ, scalemax = 4) %>%
-    reverse(items = items_to_reverse_TAS, scalemax = 5) %>%
-    reverse(items = items_to_reverse_STAI, scalemax = 4)
+# Helper function that reverse codes input data using the  procedure for one
+# questionnaire. Choose which reversing proc to apply based on a string input.
+reverse_one_questionnaire <- function(which, df) {
+  # "which" has to be the first argument for the function to work properly...
+  # this still needs to be tested more thoroughly
+  switch(
+    which,
+    AQ = reverse(df = df, items = items_to_reverse_AQ, scalemax = 4),
+    TAS = reverse(df = df, items = items_to_reverse_TAS, scalemax = 5),
+    STAI = reverse(df = df, items = items_to_reverse_STAI, scalemax = 4),
+    IAS = return(df),
+    DASS = return(df)
+  )
+}
+
+# Vectorized function that repeatedly applies the single-questionnaire scoring
+# function to an input data frame, based on a vector indicating which
+# questionnaires to score
+reverse_code <- function(data, what_to_reverse) {
+  map(.x = what_to_reverse, .f = reverse_one_questionnaire, df = data) %>%
+    reduce(merge)
+  
 }

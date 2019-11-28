@@ -10,6 +10,7 @@
 #
 # To update:
 # - Body Perception Questionnaire (BPQ)
+# - IQ scoring
 # - Automated way to add new questionnaire scoring logic
 #
 # Inputs:
@@ -18,10 +19,9 @@
 #
 # Outputs:
 # - interactive table of cleaned values
-# - .csv of cleaned data
-# - interactive table of reliability statistics
+# - .csv of cleaned/reversed data
+# - table of reliability statistics
 # - .csv of reliability statistics
-# - exploratory data viz??
 
 # Load required packages and scripts
 library(shiny)
@@ -145,14 +145,15 @@ server <- function(input, output) {
   # Store which questionnaires the user wants to analyze (but add a dependency
   # on uploaded files - it makes no sense to score without uploaded files)
   questionnaires_to_score <- reactive({
-    req(input$files)
+    req(input$questionnaires)
     
     input$questionnaires
   })
   
   # Reverse all the cleaned data... to enable accurate scoring!
   reversed_data <- reactive({
-    isolate(all_data_cleaned() %>% reverse_code())
+    isolate(reverse_code(data = all_data_cleaned(),
+                         what_to_reverse = questionnaires_to_score()))
   })
   
   # Score all the questionnaires the user wants to analyze

@@ -10,10 +10,21 @@ remove_bottom_row <- function(df) {
 # Function that drops all Gorilla columns that end with "quantised"
 drop_quantised <- function(df) {
   df <-
-    select(df, -matches("quantised$")) # Drop all columns that end with "quantised"
+    select(df, -matches("quantised$"))
   return(df)
 }
 
+drop_checkpoint <- function(df) {
+  df <- 
+    select(df, -matches("^checkpoint"))
+  return(df)
+}
+
+drop_branch <- function(df) {
+  df <- 
+    select(df, -matches("^branch"))
+  return(df)
+}
 # Function that drops all unnecessary Gorilla columns (but keep data & IDs)
 drop_gorilla_cols <- function(df) {
   extracols <- c(
@@ -38,12 +49,8 @@ drop_gorilla_cols <- function(df) {
     "Participant Browser",
     "Participant Monitor Size",
     "Participant Viewport Size",
-    "Checkpoint",
     "Task Version",
     "Task Name",
-    "checkpoint-xwex",
-    "checkpoint-hirs",
-    "checkpoint-hrtg",
     "END QUESTIONNAIRE"
   )
   # Note that "kept" columns are: Private ID, completion code, and all data
@@ -57,6 +64,8 @@ clean_at_once <- function(df) {
   df <- df %>%
     remove_bottom_row() %>%
     drop_quantised() %>%
+    drop_checkpoint() %>%
+    drop_branch() %>%
     drop_gorilla_cols()
   return(df)
 }

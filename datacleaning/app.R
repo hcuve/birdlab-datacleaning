@@ -37,9 +37,10 @@ source("code/06_score_IAS.R")
 source("code/07_score_DASS.R")
 source("code/08_score_STAI.R")
 source("code/09_reliability_helpers.R")
+source("code/10_score_IQ.R")
 
 # Useful for debugging
-# verbatimTextOutput("debug) # paste this into the UI
+# verbatimTextOutput("debug") # paste this into the UI
 # output$debug <- renderPrint({    }) # paste this into the server
 
 # UI ----
@@ -96,23 +97,54 @@ ui <- fluidPage(
     # Data display
     mainPanel(tabsetPanel(
       tabPanel("Data Cleaning",
+               
                p(),
+               
                p(strong("Cleaned Data:")),
+               
                dataTableOutput("cleaned")),
-      tabPanel(
-        "Scoring Questionnaires",
-        p(),
-        textOutput("reversed"),
-        p(strong("Scores (including all subscales):")),
-        dataTableOutput("scores")
+      
+      
+      tabPanel("Scoring Questionnaires",
+               
+               p(),
+               
+               textOutput("reversed"),
+               
+               p(strong("Scores (including all subscales):")),
+               
+               dataTableOutput("scores")
       ),
-      tabPanel(
-        "Reliability Statistics",
-        p(),
-        p(strong("Cronbach's Alpha:")),
-        tableOutput("reliability")
+      
+      tabPanel("Reliability Statistics",
+               
+               p(),
+               
+               p(strong("Cronbach's Alpha:")),
+               
+               tableOutput("reliability")
+      ),
+      
+      tabPanel("IQ Scoring", 
+               
+               p("Please make sure you have entered an 'Experiment ID' as not 
+                 all features will work without this step"),
+               
+               fileInput(
+                 inputId = "IQ_file",
+                 label = "Upload WASI data file",
+                 multiple = FALSE,
+                 accept = "text/csv"),
+               
+               downloadButton(outputId = "download_IQ",
+                              label = "Download IQ scores"),
+               
+               hr(),
+               
+               dataTableOutput("IQ")
+        )
       )
-    ))
+    )
   )
 )
 
@@ -244,7 +276,7 @@ server <- function(input, output) {
   # Allow the user to download reliability statistics in a .csv
   output$download_reliability <- downloadHandler(
     filename = function() {
-      paste0("Reliability_Cronbachs_alpha",
+      paste0("Reliability_Cronbachs_alpha_",
              input$exp_id,
              "_",
              Sys.Date(),
@@ -252,6 +284,37 @@ server <- function(input, output) {
     },
     content = function(file) {
       write_csv(as_tibble(reliability_stats()), file)
+    },
+    contentType = "text/csv"
+  )
+  
+
+  
+  # Handle IQ scoring separately for now
+  IQ_data <- reactive({
+    req(input$IQ_file)
+    
+    read_csv(input$IQ_file$datapath)
+  })
+  
+  IQ_score <- reactive({
+    req(IQ_data())
+    
+    IQ_data() %>% score_IQ()
+  })
+  
+  output$IQ <- renderDataTable({IQ_score()})
+  
+  output$download_IQ <- downloadHandler(
+    filename = function() {
+      paste0("WASI_II_FSIQ_2_", 
+             input$exp_id,
+             "_",
+             Sys.Date(),
+             ".csv")
+    },
+    content = function(file) {
+      write_csv(IQ_score(), file)
     },
     contentType = "text/csv"
   )

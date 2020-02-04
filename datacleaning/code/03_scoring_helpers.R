@@ -20,7 +20,8 @@ score_one_questionnaire <- function(which, df) {
     TAS = score_TAS(df),
     IAS = score_IAS(df),
     DASS = score_DASS(df),
-    STAI = score_STAI(df)
+    STAI = score_STAI(df),
+    BPQ = score_BPQ(df)
   )
 }
 

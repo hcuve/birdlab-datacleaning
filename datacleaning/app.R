@@ -38,6 +38,7 @@ source("code/07_score_DASS.R")
 source("code/08_score_STAI.R")
 source("code/09_reliability_helpers.R")
 source("code/10_score_IQ.R")
+source("code/11_score_BPQ.R")
 
 # Useful for debugging
 # verbatimTextOutput("debug") # paste this into the UI
@@ -70,7 +71,8 @@ ui <- fluidPage(
           "Toronto Alexithymia Scale" = "TAS",
           "State-Trait Anxiety Inventory" = "STAI",
           "Interoceptive Accuracy Scale" = "IAS",
-          "Depression, Anxiety, and Stress Scale" = "DASS"
+          "Depression, Anxiety, and Stress Scale" = "DASS",
+          "Body Perception Questionnaire" = "BPQ"
         )
       ),
       

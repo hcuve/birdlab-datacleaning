@@ -8,11 +8,13 @@
 score_TAS <- function(df) {
   # Creates a new df to store the TAS data
   TAS_data <- as_tibble(df) %>%
-    select("Participant Private ID", TAS_01:TAS_20)
+    select("Participant Private ID", "Participant Completion Code", TAS_01:TAS_20)
   
   # Return a tibble containing calculated score and subscales (simple sums)
   TAS_score <- tibble(
     "Participant Private ID" = TAS_data$`Participant Private ID`,
+    #completion code
+    "Participant Completion Code" = TAS_data$`Participant Completion Code`,
     TAS_score_total =  sumvars(.df = TAS_data, 
                                TAS_01:TAS_20),
     

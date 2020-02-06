@@ -9,8 +9,9 @@ score_AQ <- function(df, method = "collapse") {
   stopifnot(method == "collapse" | method == "sum")
   
   # Create a new df to store the AQ data
+  # to do: include "Participant Completion Code" in all the scoring
   AQ_data <- as_tibble(df) %>%
-    select("Participant Private ID", AQ_01:AQ_28)
+    select("Participant Private ID","Participant Completion Code", AQ_01:AQ_28)
   
   # Collapse-summing method of scoring from the original paper. Record score = 1
   # if respondent selected "agree"/"slightly agree", else record score = 0.
@@ -20,6 +21,8 @@ score_AQ <- function(df, method = "collapse") {
     
     AQ_score <- tibble(
       "Participant Private ID" = AQ_data$`Participant Private ID`,
+      #adding completion code
+      "Participant Completion Code" = AQ_data$`Participant Completion Code`,
       AQ_score_total =          sumvars(.df = AQ_transform,
                                         AQ_01:AQ_28),
       
@@ -58,6 +61,7 @@ score_AQ <- function(df, method = "collapse") {
     AQ_score <-
       tibble(
         "Participant Private ID" = AQ_data$`Participant Private ID`,
+        "Participant Completion Code" = AQ_data$`Participant Completion Code`,
         AQ_score_total =          sumvars(.df = AQ_data,
                                           AQ_01:AQ_28),
         

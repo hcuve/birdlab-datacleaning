@@ -5,12 +5,14 @@
 score_IAS <- function(df) {
   IAS_data <-
     as_tibble(df) %>% # Building this df to make debugging easier
-    select("Participant Private ID", IAS_01:IAS_21)
+    select("Participant Private ID", "Participant Completion Code", IAS_01:IAS_21)
   
   IAS_score <-
     tibble(
       # IAS score is just the sum of the IAS answers
       "Participant Private ID" = IAS_data$`Participant Private ID`,
+      #compl code
+      "Participant Completion Code" = IAS_data$`Participant Completion Code`,
       IAS_score = sumvars(.df = IAS_data,
                           IAS_01:IAS_21)
     )

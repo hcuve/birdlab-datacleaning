@@ -10,10 +10,11 @@ score_STAI <-
     # "_" bc R doesn't let us define vars w/ hyphens
     
     STAI_data <- as_tibble(df) %>%
-      select("Participant Private ID", STAI_01:STAI_20, STAIS_01:STAIS_20)
+      select("Participant Private ID", "Participant Completion Code", STAI_01:STAI_20, STAIS_01:STAIS_20)
     
     STAI_score <- tibble(
       "Participant Private ID" = STAI_data$`Participant Private ID`,
+      "Participant Completion Code" = STAI_data$`Participant Completion Code`,
       
       # Trait anxiety is a simple sum of the "STAI" columns in the Gorilla output
       STAI_Trait_score = sumvars(.df = STAI_data,

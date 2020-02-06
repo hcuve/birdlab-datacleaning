@@ -6,10 +6,11 @@
 
 score_DASS <- function(df) {
   DASS_data <- as_tibble(df) %>% # Building this df to make debugging easier
-    select("Participant Private ID", DASS_01:DASS_21)
+    select("Participant Private ID","Participant Completion Code", DASS_01:DASS_21)
   
   DASS_score <- tibble(
     "Participant Private ID" = DASS_data$`Participant Private ID`,
+    "Participant Completion Code" = DASS_data$`Participant Completion Code`,
     DASS_score_total =         sumvars(.df = DASS_data,
                                        DASS_01:DASS_21),
     
